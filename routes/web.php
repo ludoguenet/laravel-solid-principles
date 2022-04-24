@@ -1,8 +1,12 @@
 <?php
 
-use Carbon\Carbon;
+use App\Http\Controllers\SMSController;
+use App\Services\Format\CSVFormat;
+use App\Services\Format\PDFFormat;
 use App\Services\Order\OrderReport;
-use App\Services\Format\FormatPDFService;
+use App\Services\Payment\PaymentService;
+use App\Services\PaymentMethod\Paypal;
+use App\Services\PaymentMethod\Stripe;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +21,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $orderReport = (new OrderReport())->reportBetween(Carbon::now()->subMonths(6), now());
+    $orders = (new OrderReport())->orderBetween(now()->subMonths(6), now());
 
-    return (new FormatPDFService())->format($orderReport);
+    return (new PDFFormat())->format($orders);
 });
+
+Route::get('/pay', function () {
+    return (new PaymentService())->pay(new Stripe());
+});
+
+Route::get('/send/{to}/{message}', [SMSController::class, 'send']);

@@ -4,20 +4,13 @@ namespace App\Services\Order;
 
 use App\Models\Order;
 use Carbon\CarbonInterface;
-use Illuminate\Database\Eloquent\Collection;
 
 class OrderReport
 {
-    public function reportBetween(CarbonInterface $startDate, CarbonInterface $endDate): Collection
+    public function orderBetween(CarbonInterface $startDate, CarbonInterface $endDate)
     {
         return Order::whereBetween('shipped_at', [$startDate, $endDate])
-            ->latest('shipped_at')
+            ->latest()
             ->get();
-    }
-
-    public function report()
-    {
-        return Order::latest('shipped_at')
-            ->get(); 
     }
 }

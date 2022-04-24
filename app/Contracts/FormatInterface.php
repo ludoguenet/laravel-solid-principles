@@ -2,9 +2,9 @@
 
 namespace App\Contracts;
 
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 interface FormatInterface
 {
-    public function format(Collection $report);
+    public function format(Collection $data);
 }
