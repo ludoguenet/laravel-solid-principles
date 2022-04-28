@@ -2,17 +2,23 @@
 
 namespace App\Services\PaymentMethod;
 
-class Paypal extends PaymentMethod
+use App\Contracts\PaymentMethodInterface;
+use RuntimeException;
+
+abstract class PaymentMethod implements PaymentMethodInterface
 {
+    public function __construct(protected int|float $amount)
+    {}
+
     public function pay(string $currency, float|int $amount, array $params = []): int
     {
         if (! $currency) {
             throw new RuntimeException('Erreur!');
         }
 
-        // Logic..
+        // Logic...
 
-        if ($totalAmount && array_key_first($params, 123)) {
+        if ($totalAmount) {
             return 0;
         }
     }

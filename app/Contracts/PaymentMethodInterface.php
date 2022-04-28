@@ -4,5 +4,5 @@ namespace App\Contracts;
 
 interface PaymentMethodInterface
 {
-    public function pay();
+    public function pay(string $currency, float|int $amount, array $params = []): int;
 }
